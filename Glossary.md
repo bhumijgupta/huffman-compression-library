@@ -11,3 +11,4 @@ Todos
 - Check for stream good
 - check for case abbcccdddd
 - Store keyCharMap in file
+- Add CMAKE/ Make script
