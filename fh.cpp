@@ -55,6 +55,16 @@ void traverse(cfp *head, unordered_map<char, string> &charKeyMap, string s)
     traverse(head->right, charKeyMap, s + "1");
 }
 
+int fileSize(string filename)
+{
+    ifstream scanner;
+    scanner.open(filename, ios::binary | ios::ate);
+    scanner.seekg(0, ios::end);
+    int size = scanner.tellg();
+    scanner.close();
+    return size;
+}
+
 int main()
 {
     // [1]
@@ -71,9 +81,11 @@ int main()
         unordered_map<char, int> *index = new unordered_map<char, int>;
         vector<cfp *> freq_store;
         char ch;
+        int numChars = 0;
         // [3]
         while (reader >> noskipws >> ch)
         {
+            numChars++;
             if (index->count(ch) > 0)
             {
                 int ind = index->at(ch);
@@ -124,10 +136,13 @@ int main()
             keyCharMap[i.second] = i.first;
         }
 
+        // Read from file and write compressed to new file
         ofstream writer;
         writer.open("newfile_compressed.txt", ios::out | ios::trunc);
         reader.open("newfile.txt", ios::in);
 
+        // Write first byte as numChars to check file integrity
+        writer << numChars;
         char chr = 0;
         int bufferSize = 8;
         int size = 0;
@@ -146,8 +161,9 @@ int main()
                 }
             }
         }
-        if (chr)
+        if (bufferSize)
         {
+            chr = chr << bufferSize;
             writer << chr;
         }
         writer.close();
@@ -156,7 +172,10 @@ int main()
         reader.open("newfile_compressed.txt", ios::in);
         writer.open("newfile_original.txt", ios::out | ios::trunc);
         string key = "";
-        while (reader >> noskipws >> ch)
+        int totalChars;
+        reader >> noskipws >> totalChars;
+        int readChars = 0;
+        while (reader >> noskipws >> ch && readChars != totalChars)
         {
             string bin_read = bitset<8>(ch).to_string();
             for (int i = 0; i < bin_read.length(); i++)
@@ -166,27 +185,18 @@ int main()
                 {
                     writer << keyCharMap[key];
                     key = "";
+                    readChars++;
+                    if (readChars == totalChars)
+                        break;
                 }
             }
         }
         reader.close();
         writer.close();
 
-        ifstream scanner;
-        scanner.open("newfile.txt", ios::binary | ios::ate);
-        scanner.seekg(0, ios::end);
-        int original_size = scanner.tellg();
-        scanner.close();
-
-        scanner.open("newfile_compressed.txt", ios::binary | ios::ate);
-        scanner.seekg(0, ios::end);
-        int compressed_size = scanner.tellg();
-        scanner.close();
-
-        scanner.open("newfile.txt", ios::binary | ios::ate);
-        scanner.seekg(0, ios::end);
-        int decompressed_size = scanner.tellg();
-        scanner.close();
+        int original_size = numChars;
+        int compressed_size = fileSize("newfile_compressed.txt");
+        int decompressed_size = fileSize("newfile.txt");
 
         cout << "----------Completed---------- \n";
         cout << left << setw(30) << "Filetype";

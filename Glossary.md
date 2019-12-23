@@ -9,6 +9,5 @@ Todos
 - Break into OOPS
 - Add error handling to each read and write stream
 - Check for stream good
-- check for case abbcccdddd
 - Store keyCharMap in file
 - Add CMAKE/ Make script
