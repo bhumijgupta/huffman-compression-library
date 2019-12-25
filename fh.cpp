@@ -55,6 +55,17 @@ void traverse(cfp *head, unordered_map<char, string> &charKeyMap, string s)
     traverse(head->right, charKeyMap, s + "1");
 }
 
+void traverse(cfp *head, unordered_map<string, char> &keyCharMap, string s)
+{
+    if (head->left == NULL && head->right == NULL)
+    {
+        keyCharMap[s] = head->getChar();
+        return;
+    }
+    traverse(head->left, keyCharMap, s + "0");
+    traverse(head->right, keyCharMap, s + "1");
+}
+
 int fileSize(string filename)
 {
     ifstream scanner;
@@ -63,6 +74,35 @@ int fileSize(string filename)
     int size = scanner.tellg();
     scanner.close();
     return size;
+}
+
+cfp *readTree(ifstream &reader)
+{
+    char nodeType;
+    reader >> noskipws >> nodeType;
+    if (nodeType == '1')
+    {
+        char ch;
+        reader >> noskipws >> ch;
+        cfp *head = new cfp(ch, 0);
+        return head;
+    }
+    cfp *head = new cfp('~', 0);
+    head->left = readTree(reader);
+    head->right = readTree(reader);
+}
+
+void writeTree(ofstream &writer, cfp *head)
+{
+    if (head->left == NULL && head->right == NULL)
+    {
+        writer << '1';
+        writer << head->getChar();
+        return;
+    }
+    writer << '0';
+    writeTree(writer, head->left);
+    writeTree(writer, head->right);
 }
 
 int main()
@@ -104,6 +144,7 @@ int main()
             cout << "No need for encryption\n";
             return 0;
         }
+        // Create min priority queue for cfp pair
         priority_queue<cfp *, vector<cfp *>, pairComparator> freq_sorted;
         for (auto i : freq_store)
         {
@@ -128,20 +169,16 @@ int main()
         }
         unordered_map<char, string> charKeyMap;
         traverse(head, charKeyMap, "");
-        delete head;
-
-        unordered_map<string, char> keyCharMap;
-        for (auto i : charKeyMap)
-        {
-            keyCharMap[i.second] = i.first;
-        }
 
         // Read from file and write compressed to new file
         ofstream writer;
         writer.open("newfile_compressed.txt", ios::out | ios::trunc);
         reader.open("newfile.txt", ios::in);
 
-        // Write first byte as numChars to check file integrity
+        // First write the tree in preorder form
+        writeTree(writer, head);
+        delete head;
+        // Write numChars to check file integrity
         writer << numChars;
         char chr = 0;
         int bufferSize = 8;
@@ -169,11 +206,19 @@ int main()
         writer.close();
         reader.close();
 
+        // Decompression
         reader.open("newfile_compressed.txt", ios::in);
-        writer.open("newfile_original.txt", ios::out | ios::trunc);
-        string key = "";
+        // create huffman tree from file
+        head = readTree(reader);
+        // Create key char map for decompression
+        unordered_map<string, char> keyCharMap;
+        traverse(head, keyCharMap, "");
+        delete head;
+        // Read total number of characters
         int totalChars;
         reader >> noskipws >> totalChars;
+        writer.open("newfile_original.txt", ios::out | ios::trunc);
+        string key = "";
         int readChars = 0;
         while (reader >> noskipws >> ch && readChars != totalChars)
         {

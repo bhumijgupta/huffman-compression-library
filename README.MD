@@ -12,7 +12,8 @@ The `newfile.txt` is populated using lorem ipsum data from [lipsum.com](https://
 
 | Number of characters | Original file size (in bytes) | Compressed file size (in bytes) |
 | :------------------: | :---------------------------: | :-----------------------------: |
-|          10          |              10               |                7                |
-|         100          |              100              |               55                |
-|         1000         |             1000              |               536               |
-|        100000        |            100000             |              53445              |
+|          10          |              10               |               36                |
+|         100          |              100              |               116               |
+|         1000         |             1000              |               642               |
+|        10000         |             10000             |              5445               |
+|        100000        |            100000             |              53354              |
