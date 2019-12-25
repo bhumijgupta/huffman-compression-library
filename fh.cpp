@@ -6,6 +6,8 @@
 #include <queue>
 #include <string>
 #include <bitset>
+
+#include "src/scanner.h"
 #define cfp charFreqPair
 
 using namespace std;
@@ -66,16 +68,6 @@ void traverse(cfp *head, unordered_map<string, char> &keyCharMap, string s)
     traverse(head->right, keyCharMap, s + "1");
 }
 
-int fileSize(string filename)
-{
-    ifstream scanner;
-    scanner.open(filename, ios::binary | ios::ate);
-    scanner.seekg(0, ios::end);
-    int size = scanner.tellg();
-    scanner.close();
-    return size;
-}
-
 cfp *readTree(ifstream &reader)
 {
     char nodeType;
@@ -105,6 +97,14 @@ void writeTree(ofstream &writer, cfp *head)
     writeTree(writer, head->right);
 }
 
+void prettyPrint(string out)
+{
+    cout << left << setw(30) << out;
+}
+void prettyPrint(int out)
+{
+    cout << left << setw(30) << out;
+}
 int main()
 {
     // [1]
@@ -239,27 +239,34 @@ int main()
         reader.close();
         writer.close();
 
+        scanner sc;
         int original_size = numChars;
-        int compressed_size = fileSize("newfile_compressed.txt");
-        int decompressed_size = fileSize("newfile.txt");
+        int compressed_size = sc.getFileSize("newfile_compressed.txt");
+        // If file not present or cannot open, it returns -1
+        if (compressed_size == -1)
+            return 1;
+        int decompressed_size = sc.getFileSize("newfile_original.txt");
+        // If file not present or cannot open, it returns -1
+        if (decompressed_size == -1)
+            return 1;
 
         cout << "----------Completed---------- \n";
-        cout << left << setw(30) << "Filetype";
-        cout << left << setw(30) << "Filename";
-        cout << left << setw(30) << "Filesize(in bytes)"
-             << "\n";
+        prettyPrint("Filetype");
+        prettyPrint("Filename");
+        prettyPrint("Filesize in bytes");
+        cout << "\n\n";
+        prettyPrint("Original");
+        prettyPrint("newfile.txt");
+        prettyPrint(original_size);
         cout << "\n";
-        cout << left << setw(30) << "Original";
-        cout << left << setw(30) << "newfile.txt";
-        cout << left << setw(30) << original_size << "\n";
-
-        cout << left << setw(30) << "Compressed";
-        cout << left << setw(30) << "newfile_compressed.txt";
-        cout << left << setw(30) << compressed_size << "\n";
-
-        cout << left << setw(30) << "Decompressed";
-        cout << left << setw(30) << "newfile_original.txt";
-        cout << left << setw(30) << decompressed_size << "\n";
+        prettyPrint("Compressed");
+        prettyPrint("newfile_compressed.txt");
+        prettyPrint(compressed_size);
+        cout << "\n";
+        prettyPrint("Decompressed");
+        prettyPrint("newfile_original.txt");
+        prettyPrint(decompressed_size);
+        cout << "\n";
     }
     return 0;
 }
