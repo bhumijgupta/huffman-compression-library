@@ -110,7 +110,7 @@ int main()
     // [1]
     ifstream reader;
     // [2]
-    reader.open("newfile.txt", ios::in);
+    reader.open("sample/newfile.txt", ios::in);
     if (!reader)
     {
         cout << "No such file exists";
@@ -172,8 +172,8 @@ int main()
 
         // Read from file and write compressed to new file
         ofstream writer;
-        writer.open("newfile_compressed.txt", ios::out | ios::trunc);
-        reader.open("newfile.txt", ios::in);
+        writer.open("sample/newfile_compressed.txt", ios::out | ios::trunc);
+        reader.open("sample/newfile.txt", ios::in);
 
         // First write the tree in preorder form
         writeTree(writer, head);
@@ -207,7 +207,7 @@ int main()
         reader.close();
 
         // Decompression
-        reader.open("newfile_compressed.txt", ios::in);
+        reader.open("sample/newfile_compressed.txt", ios::in);
         // create huffman tree from file
         head = readTree(reader);
         // Create key char map for decompression
@@ -217,7 +217,7 @@ int main()
         // Read total number of characters
         int totalChars;
         reader >> noskipws >> totalChars;
-        writer.open("newfile_original.txt", ios::out | ios::trunc);
+        writer.open("sample/newfile_original.txt", ios::out | ios::trunc);
         string key = "";
         int readChars = 0;
         while (reader >> noskipws >> ch && readChars != totalChars)
@@ -241,11 +241,11 @@ int main()
 
         scanner sc;
         int original_size = numChars;
-        int compressed_size = sc.getFileSize("newfile_compressed.txt");
+        int compressed_size = sc.getFileSize("sample/newfile_compressed.txt");
         // If file not present or cannot open, it returns -1
         if (compressed_size == -1)
             return 1;
-        int decompressed_size = sc.getFileSize("newfile_original.txt");
+        int decompressed_size = sc.getFileSize("sample/newfile_original.txt");
         // If file not present or cannot open, it returns -1
         if (decompressed_size == -1)
             return 1;
