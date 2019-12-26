@@ -54,13 +54,33 @@ If no `retrievedFile` is provided, `retrievedFile` is present at the same dir as
 benchmark(string sourcefile = "sample/newfile.txt") : void
 ```
 
-This method performs compression and decompression on the sourcefile provided and prints the output in form of below table:
-| Filetype | Filename | Filesize (in bytes) |
-|--------------|----------|---------------------|
-| Original | | |
-| Compressed | | |
-| Decompressed | | |
-
+This method performs compression and decompression on the sourcefile provided and prints the output in form of below table:  
+<table>
+<thead>
+<tr>
+<th>Filetype</th>
+<th>Filename</th>
+<th>Filesize (in bytes)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Original</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Compressed</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>Decompressed</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 If no `sourcefile` is given, source file is considered as `sample/newfile.txt`
 
 ## Performance Comparison
