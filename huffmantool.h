@@ -46,77 +46,96 @@ public:
     }
 };
 
-void traverse(cfp *head, unordered_map<char, string> &charKeyMap, string s)
+class huffmantool
 {
-    if (head->left == NULL && head->right == NULL)
+    void traverse(cfp *head, unordered_map<char, string> &charKeyMap, string s)
     {
-        charKeyMap[head->getChar()] = s;
-        return;
+        if (head->left == NULL && head->right == NULL)
+        {
+            charKeyMap[head->getChar()] = s;
+            return;
+        }
+        traverse(head->left, charKeyMap, s + "0");
+        traverse(head->right, charKeyMap, s + "1");
     }
-    traverse(head->left, charKeyMap, s + "0");
-    traverse(head->right, charKeyMap, s + "1");
-}
 
-void traverse(cfp *head, unordered_map<string, char> &keyCharMap, string s)
-{
-    if (head->left == NULL && head->right == NULL)
+    void traverse(cfp *head, unordered_map<string, char> &keyCharMap, string s)
     {
-        keyCharMap[s] = head->getChar();
-        return;
+        if (head->left == NULL && head->right == NULL)
+        {
+            keyCharMap[s] = head->getChar();
+            return;
+        }
+        traverse(head->left, keyCharMap, s + "0");
+        traverse(head->right, keyCharMap, s + "1");
     }
-    traverse(head->left, keyCharMap, s + "0");
-    traverse(head->right, keyCharMap, s + "1");
-}
 
-cfp *readTree(ifstream &reader)
-{
-    char nodeType;
-    reader >> noskipws >> nodeType;
-    if (nodeType == '1')
+    cfp *readTree(ifstream &reader)
     {
-        char ch;
-        reader >> noskipws >> ch;
-        cfp *head = new cfp(ch, 0);
-        return head;
+        char nodeType;
+        reader >> noskipws >> nodeType;
+        if (nodeType == '1')
+        {
+            char ch;
+            reader >> noskipws >> ch;
+            cfp *head = new cfp(ch, 0);
+            return head;
+        }
+        cfp *head = new cfp('~', 0);
+        head->left = readTree(reader);
+        head->right = readTree(reader);
     }
-    cfp *head = new cfp('~', 0);
-    head->left = readTree(reader);
-    head->right = readTree(reader);
-}
 
-void writeTree(ofstream &writer, cfp *head)
-{
-    if (head->left == NULL && head->right == NULL)
+    void writeTree(ofstream &writer, cfp *head)
     {
-        writer << '1';
-        writer << head->getChar();
-        return;
+        if (head->left == NULL && head->right == NULL)
+        {
+            writer << '1';
+            writer << head->getChar();
+            return;
+        }
+        writer << '0';
+        writeTree(writer, head->left);
+        writeTree(writer, head->right);
     }
-    writer << '0';
-    writeTree(writer, head->left);
-    writeTree(writer, head->right);
-}
 
-void prettyPrint(string out)
-{
-    cout << left << setw(30) << out;
-}
-void prettyPrint(int out)
-{
-    cout << left << setw(30) << out;
-}
-int main()
-{
-    // [1]
-    ifstream reader;
-    // [2]
-    reader.open("sample/newfile.txt", ios::in);
-    if (!reader)
+    void prettyPrint(string out)
     {
-        cout << "No such file exists";
+        cout << left << setw(30) << out;
     }
-    else
+    void prettyPrint(int out)
     {
+        cout << left << setw(30) << out;
+    }
+
+    int lposSlash(string filename)
+    {
+        int pos = -1;
+        for (int i = 0; i < filename.length(); i++)
+        {
+            if (filename[i] == '/')
+                pos = i;
+        }
+        return pos;
+    }
+
+public:
+    string compressFile(string sourcefile, string compressedFile = "")
+    {
+        if (compressedFile == "")
+        {
+            int pos = lposSlash(sourcefile);
+            compressedFile = sourcefile.substr(0, pos + 1) + "compressed_" + sourcefile.substr(pos + 1);
+        }
+        // [1]
+        ifstream reader;
+        // [2]
+        reader.open(sourcefile, ios::in);
+        if (!reader.is_open())
+        {
+            cout << "No such file exists or cannot open file " + sourcefile;
+            return "";
+        }
         // map for index in vector
         unordered_map<char, int> *index = new unordered_map<char, int>;
         vector<cfp *> freq_store;
@@ -172,8 +191,8 @@ int main()
 
         // Read from file and write compressed to new file
         ofstream writer;
-        writer.open("sample/newfile_compressed.txt", ios::out | ios::trunc);
-        reader.open("sample/newfile.txt", ios::in);
+        writer.open(compressedFile, ios::out | ios::trunc);
+        reader.open(sourcefile, ios::in);
 
         // First write the tree in preorder form
         writeTree(writer, head);
@@ -205,11 +224,24 @@ int main()
         }
         writer.close();
         reader.close();
-
-        // Decompression
-        reader.open("sample/newfile_compressed.txt", ios::in);
+        return compressedFile;
+    }
+    string decompressFile(string compressedFile, string retrievedFile = "")
+    {
+        if (retrievedFile == "")
+        {
+            int pos = lposSlash(compressedFile);
+            retrievedFile = compressedFile.substr(0, pos + 1) + "decompressed_";
+            if (compressedFile.length() - pos + 1 >= 11 && compressedFile.substr(pos + 1, 11) == "compressed_")
+                retrievedFile += compressedFile.substr(pos + 11 + 1);
+            else
+                retrievedFile += compressedFile.substr(pos + 1);
+        }
+        ifstream reader;
+        ofstream writer;
+        reader.open(compressedFile, ios::in);
         // create huffman tree from file
-        head = readTree(reader);
+        cfp *head = readTree(reader);
         // Create key char map for decompression
         unordered_map<string, char> keyCharMap;
         traverse(head, keyCharMap, "");
@@ -217,9 +249,10 @@ int main()
         // Read total number of characters
         int totalChars;
         reader >> noskipws >> totalChars;
-        writer.open("sample/newfile_original.txt", ios::out | ios::trunc);
+        writer.open(retrievedFile, ios::out | ios::trunc);
         string key = "";
         int readChars = 0;
+        char ch;
         while (reader >> noskipws >> ch && readChars != totalChars)
         {
             string bin_read = bitset<8>(ch).to_string();
@@ -238,17 +271,26 @@ int main()
         }
         reader.close();
         writer.close();
-
+        return retrievedFile;
+    };
+    void benchmark(string sourcefile = "sample/newfile.txt")
+    {
+        string compressedFile = compressFile(sourcefile);
+        if (compressedFile == "")
+            return;
         scanner sc;
-        int original_size = numChars;
-        int compressed_size = sc.getFileSize("sample/newfile_compressed.txt");
+        string retrievedFile = decompressFile(compressedFile);
+        int original_size = sc.getFileSize(sourcefile);
+        if (original_size == -1)
+            return;
+        int compressed_size = sc.getFileSize(compressedFile);
         // If file not present or cannot open, it returns -1
         if (compressed_size == -1)
-            return 1;
-        int decompressed_size = sc.getFileSize("sample/newfile_original.txt");
+            return;
+        int decompressed_size = sc.getFileSize(retrievedFile);
         // If file not present or cannot open, it returns -1
         if (decompressed_size == -1)
-            return 1;
+            return;
 
         cout << "----------Completed---------- \n";
         prettyPrint("Filetype");
@@ -256,17 +298,19 @@ int main()
         prettyPrint("Filesize in bytes");
         cout << "\n\n";
         prettyPrint("Original");
-        prettyPrint("newfile.txt");
+        sourcefile = sourcefile.substr(lposSlash(sourcefile) + 1);
+        prettyPrint(sourcefile);
         prettyPrint(original_size);
         cout << "\n";
         prettyPrint("Compressed");
-        prettyPrint("newfile_compressed.txt");
+        compressedFile = compressedFile.substr(lposSlash(compressedFile) + 1);
+        prettyPrint(compressedFile);
         prettyPrint(compressed_size);
         cout << "\n";
         prettyPrint("Decompressed");
-        prettyPrint("newfile_original.txt");
+        retrievedFile = retrievedFile.substr(lposSlash(retrievedFile) + 1);
+        prettyPrint(retrievedFile);
         prettyPrint(decompressed_size);
         cout << "\n";
-    }
-    return 0;
-}
+    };
+};

@@ -8,12 +8,64 @@ This is a C++ project to demonstrate file compression and decompression using Hu
 
 ## Usage
 
-1. Enter the data you want to be compressed in (sample/newfile.txt)[sample/newfile.txt]
-2. Run `g++ fh.cpp && ./a.out`
+1. Import Huffman tool header and create new `huffmantool` object
+
+```C++
+// Filename main.cpp
+#import "huffmantool.h"
+
+int main(){
+    huffmantool ht;
+    .
+    .
+    .
+}
+```
+
+2. Compile and run file
+
+```bash
+g++ main.cpp && ./a.out
+```
+
+## Methods
+
+### compressFile
+
+```C++
+compressFile(string sourcefile, string compressedFile = "") : string
+```
+
+Returns the destination of compressed file.  
+If no `compressedFile` is provided, `compressedFile` is present at the same dir as `sourcefile` with prefix `compressed_`
+
+### decompressFile
+
+```C++
+decompressFile(string compressedFile, string retrievedFile = "") : string
+```
+
+Returns the destination of decompressed file.  
+If no `retrievedFile` is provided, `retrievedFile` is present at the same dir as `compressedFile` with prefix `decompressed_` and removed `compressed_` prefix (if present)
+
+### benchmark
+
+```C++
+benchmark(string sourcefile = "sample/newfile.txt") : void
+```
+
+This method performs compression and decompression on the sourcefile provided and prints the output in form of below table:
+| Filetype | Filename | Filesize (in bytes) |
+|--------------|----------|---------------------|
+| Original | | |
+| Compressed | | |
+| Decompressed | | |
+
+If no `sourcefile` is given, source file is considered as `sample/newfile.txt`
 
 ## Performance Comparison
 
-The `newfile.txt` is populated using lorem ipsum data from [lipsum.com](https://www.lipsum.com/) and the following data is noticed.
+The `newfile.txt` is populated using lorem ipsum data from [lipsum.com](https://www.lipsum.com/) and the following data is noticed after executing `main.cpp`.
 
 | Number of characters | Original file size (in bytes) | Compressed file size (in bytes) |
 | :------------------: | :---------------------------: | :-----------------------------: |
