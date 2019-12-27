@@ -299,7 +299,7 @@ public:
         prettyPrint(retrievedFile);
         prettyPrint(decompressed_size);
 
-        float compression = ((float)compressed_size / original_size) * 100.0;
+        float compression = 100.0 - ((float)compressed_size / original_size) * 100.0;
         std::cout << "\n\n";
         printSeparator();
         std::cout << "Time taken to compress file: " << compression_time.count() << " microseconds\n";
