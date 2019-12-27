@@ -1,3 +1,6 @@
+#ifndef HUFFMAN_TOOL_H
+#define HUFFMAN_TOOL_H
+
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -9,41 +12,7 @@
 #include <chrono>
 
 #include "src/scanner.h"
-#define cfp charFreqPair
-
-class charFreqPair
-{
-    char ch;
-    int freq;
-
-public:
-    cfp *left;
-    cfp *right;
-    charFreqPair(){};
-    charFreqPair(char const &ch, int const &freq) : ch(ch), freq(freq)
-    {
-        left = NULL;
-        right = NULL;
-    };
-    char getChar() const { return ch; }
-    int getFreq() const { return freq; }
-    void setFreq(int freq) { this->freq = freq; }
-    ~charFreqPair()
-    {
-        delete left;
-        delete right;
-    }
-};
-
-class pairComparator
-{
-public:
-    // [4]
-    int operator()(cfp *const &a, cfp *const &b)
-    {
-        return a->getFreq() > b->getFreq();
-    }
-};
+#include "src/cfp.h"
 
 class huffmantool
 {
@@ -338,3 +307,5 @@ public:
         std::cout << "Compression: " << compression << "% \n\n";
     };
 };
+
+#endif // HUFFMAN_TOOL_H
