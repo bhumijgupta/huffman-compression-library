@@ -116,8 +116,7 @@ The `newfile.txt` is populated using lorem ipsum data from [lipsum.com](https://
 The tests are stored in `tests/` directory. You need to install [gtest](https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/) framework to run test.
 
 ```bash
-cmake CMakeLists.txt --build ./build --target all
-cd build
+cmake CMakeLists.txt
 make
 ./runTests
 ```
