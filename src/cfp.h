@@ -26,7 +26,7 @@ public:
 class pairComparator
 {
 public:
-    // [4]
+    // [6]
     int operator()(cfp *const &a, cfp *const &b)
     {
         return a->getFreq() > b->getFreq();

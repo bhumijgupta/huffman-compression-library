@@ -1,3 +1,4 @@
+// [1]
 #ifndef HUFFMAN_TOOL_H
 #define HUFFMAN_TOOL_H
 
@@ -16,7 +17,7 @@
 
 class huffmantool
 {
-    void traverse(cfp *head, std::unordered_map<char, std::string> &charKeyMap, std::string s)
+    void traverse(cfp const *head, std::unordered_map<char, std::string> &charKeyMap, std::string const s)
     {
         if (head->left == NULL && head->right == NULL)
         {
@@ -27,7 +28,7 @@ class huffmantool
         traverse(head->right, charKeyMap, s + "1");
     }
 
-    void traverse(cfp *head, std::unordered_map<std::string, char> &keyCharMap, std::string s)
+    void traverse(cfp const *head, std::unordered_map<std::string, char> &keyCharMap, std::string const s)
     {
         if (head->left == NULL && head->right == NULL)
         {
@@ -54,7 +55,7 @@ class huffmantool
         head->right = readTree(reader);
     }
 
-    void writeTree(std::ofstream &writer, cfp *head)
+    void writeTree(std::ofstream &writer, cfp const *head)
     {
         if (head->left == NULL && head->right == NULL)
         {
@@ -67,11 +68,12 @@ class huffmantool
         writeTree(writer, head->right);
     }
 
-    void prettyPrint(std::string out)
+    void prettyPrint(std::string const out)
     {
+        // [5]
         std::cout << std::left << std::setw(30) << out;
     }
-    void prettyPrint(int out)
+    void prettyPrint(int const out)
     {
         std::cout << std::left << std::setw(30) << out;
     }
@@ -82,7 +84,7 @@ class huffmantool
         std::cout << "\n";
     }
 
-    int lposSlash(std::string filename)
+    int lposSlash(std::string const filename)
     {
         int pos = -1;
         for (int i = 0; i < filename.length(); i++)
@@ -101,9 +103,7 @@ public:
             int pos = lposSlash(sourcefile);
             compressedFile = sourcefile.substr(0, pos + 1) + "compressed_" + sourcefile.substr(pos + 1);
         }
-        // [1]
         std::ifstream reader;
-        // [2]
         reader.open(sourcefile, std::ios::in);
         if (!reader.is_open())
         {
@@ -115,7 +115,7 @@ public:
         std::vector<cfp *> freq_store;
         char ch;
         int numChars = 0;
-        // [3]
+        // [2]
         while (reader >> std::noskipws >> ch)
         {
             numChars++;
@@ -200,6 +200,7 @@ public:
         reader.close();
         return compressedFile;
     }
+
     std::string decompressFile(std::string compressedFile, std::string retrievedFile = "")
     {
         if (retrievedFile == "")
@@ -229,6 +230,7 @@ public:
         char ch;
         while (reader >> std::noskipws >> ch && readChars != totalChars)
         {
+            // [3]
             std::string bin_read = std::bitset<8>(ch).to_string();
             for (int i = 0; i < bin_read.length(); i++)
             {
@@ -245,10 +247,16 @@ public:
         }
         reader.close();
         writer.close();
+        if (readChars != totalChars)
+        {
+            cout << "Compressed file is corrupted\n";
+            return "";
+        }
         return retrievedFile;
     };
     void benchmark(std::string sourcefile = "sample/newfile.txt")
     {
+        // [4]
         auto start_compression = std::chrono::high_resolution_clock::now();
         std::string compressedFile = compressFile(sourcefile);
         auto end_compression = std::chrono::high_resolution_clock::now();
@@ -258,6 +266,8 @@ public:
 
         auto start_decompression = std::chrono::high_resolution_clock::now();
         std::string retrievedFile = decompressFile(compressedFile);
+        if (retrievedFile == "")
+            return;
         auto end_decompression = std::chrono::high_resolution_clock::now();
         auto decompression_time = std::chrono::duration_cast<std::chrono::microseconds>(end_decompression - start_decompression);
 

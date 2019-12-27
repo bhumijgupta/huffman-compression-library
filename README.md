@@ -1,6 +1,8 @@
 # Huffman Compression Library
 
-This is a custom C++ library that implements Huffman coding compression algorithm. The library exposes methods that provides high level abstraction over compression and decompression of files.
+This is a custom C++ library that implements Huffman coding compression algorithm. The library exposes methods that provides high level abstraction over compression and decompression of files.  
+[![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)  
+![](https://github.com/actions/hello-world/workflows/.github/workflows/ccpp.yml/badge.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bhumijgupta/![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library)) ![GitHub top language](https://img.shields.io/github/languages/top/bhumijgupta/huffman-compression-library)
 
 ## Table of Contents
 
@@ -12,8 +14,9 @@ This is a custom C++ library that implements Huffman coding compression algorith
   - [decompressFile](#decompressFile)
   - [benchmark](#benchmark)
 - [Performance Comparison](#Performance-Comparison)
+  - [Conclusion](#Conclusion)
 - [Run tests](#Run-tests)
-- [Conclusion](#Conclusion)
+- [Author](#Author)
 
 ## Features
 
@@ -31,11 +34,14 @@ Below is the output for `huffmantool.benchmark()` method
 
 ## Usage
 
-1. Import Huffman tool header and create new `huffmantool` object
+1. Clone this repo to your project folder
+   `git clone git@github.com:bhumijgupta/huffman-compression-library.git htlibrary`
+
+2. Import Huffman tool header and create new `huffmantool` object
 
 ```C++
 // Filename main.cpp
-#import "huffmantool.h"
+#import "htlibrary/huffmantool.h"
 
 int main(){
     huffmantool ht;
@@ -111,6 +117,12 @@ The `newfile.txt` is populated using lorem ipsum data from [lipsum.com](https://
 |        10000         |             10000             |              5445               |
 |        100000        |            100000             |              53354              |
 
+### Conclusion
+
+The compression ratio and performance of the Huffman coding depends on the size of input text and the frequency of distinct characters in the file. From the above comparison we can see that the current implementation of huffman coding does not produce positive compression ratio for small files due to the overhead of storing `Huffman Tree` in the compressed file, which is useful at the time of decompression.
+
+But we notice, as the size of file increases (>=1000 bytes), the compression ratio stays at almost 50%.
+
 ## Run tests
 
 The tests are stored in `tests/` directory. You need to install [gtest](https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/) framework to run test.
@@ -121,8 +133,17 @@ make
 ./runTests
 ```
 
-## Conclusion
+## Future works
 
-The compression ratio and performance of the Huffman coding depends on the size of input text and the frequency of distinct characters in the file. From the above comparison we can see that the current implementation of huffman coding does not produce positive compression ratio for small files due to the overhead of storing `Huffman Tree` in the compressed file, which is useful at the time of decompression.
+- Add more unit tests
+- Explain in detail the working and implemetation in wiki
+- Add more examples
+- Add better documentation
 
-But we notice, as the size of file increases (>=1000 bytes), the compression ratio stays at almost 50%.
+## Author
+
+[![forthebadge](https://forthebadge.com/images/badges/built-with-love.svg)](https://forthebadge.com)
+
+### Bhumij Gupta
+
+![GitHub followers](https://img.shields.io/github/followers/bhumijgupta?label=Follow&style=social) [![LinkedIn](https://img.shields.io/static/v1.svg?label=connect&message=@bhumijgupta&color=success&logo=linkedin&style=flat&logoColor=white)](https://www.linkedin.com/in/bhumijgupta/) ![Twitter URL](https://img.shields.io/twitter/url?style=social&url=http%3A%2F%2Ftwitter.com%2Fbhumijgupta)
