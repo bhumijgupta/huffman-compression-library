@@ -2,6 +2,19 @@
 
 This is a custom C++ library that implements Huffman coding compression algorithm. The library exposes methods that provides high level abstraction over compression and decompression of files.
 
+## Table of Contents
+
+- [Features](#Features)
+- [Benchmarks](#Benchmarks)
+- [Usage](#Usage)
+- [Methods](#Methods)
+  - [compressFile](#compressFile)
+  - [decompressFile](#decompressFile)
+  - [benchmark](#benchmark)
+- [Performance Comparison](#Performance-Comparison)
+- [Run tests](#Run-tests)
+- [Conclusion](#Conclusion)
+
 ## Features
 
 - Fast and efficient
@@ -11,7 +24,7 @@ This is a custom C++ library that implements Huffman coding compression algorith
 - Light weight library
 - Compression ratio of upto 50%
 
-## Screenshot
+## Benchmarks
 
 Below is the output for `huffmantool.benchmark()` method
 ![output.png](assets/output.png)
@@ -97,6 +110,17 @@ The `newfile.txt` is populated using lorem ipsum data from [lipsum.com](https://
 |         1000         |             1000              |               642               |
 |        10000         |             10000             |              5445               |
 |        100000        |            100000             |              53354              |
+
+## Run tests
+
+The tests are stored in `tests/` directory. You need to install [gtest](https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/) framework to run test.
+
+```bash
+cmake --build ./build --target all
+cd build
+make
+./runTests
+```
 
 ## Conclusion
 
