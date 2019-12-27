@@ -6,11 +6,10 @@
 #include <queue>
 #include <string>
 #include <bitset>
+#include <chrono>
 
 #include "src/scanner.h"
 #define cfp charFreqPair
-
-using namespace std;
 
 class charFreqPair
 {
@@ -48,7 +47,7 @@ public:
 
 class huffmantool
 {
-    void traverse(cfp *head, unordered_map<char, string> &charKeyMap, string s)
+    void traverse(cfp *head, std::unordered_map<char, std::string> &charKeyMap, std::string s)
     {
         if (head->left == NULL && head->right == NULL)
         {
@@ -59,7 +58,7 @@ class huffmantool
         traverse(head->right, charKeyMap, s + "1");
     }
 
-    void traverse(cfp *head, unordered_map<string, char> &keyCharMap, string s)
+    void traverse(cfp *head, std::unordered_map<std::string, char> &keyCharMap, std::string s)
     {
         if (head->left == NULL && head->right == NULL)
         {
@@ -70,14 +69,14 @@ class huffmantool
         traverse(head->right, keyCharMap, s + "1");
     }
 
-    cfp *readTree(ifstream &reader)
+    cfp *readTree(std::ifstream &reader)
     {
         char nodeType;
-        reader >> noskipws >> nodeType;
+        reader >> std::noskipws >> nodeType;
         if (nodeType == '1')
         {
             char ch;
-            reader >> noskipws >> ch;
+            reader >> std::noskipws >> ch;
             cfp *head = new cfp(ch, 0);
             return head;
         }
@@ -86,7 +85,7 @@ class huffmantool
         head->right = readTree(reader);
     }
 
-    void writeTree(ofstream &writer, cfp *head)
+    void writeTree(std::ofstream &writer, cfp *head)
     {
         if (head->left == NULL && head->right == NULL)
         {
@@ -99,16 +98,22 @@ class huffmantool
         writeTree(writer, head->right);
     }
 
-    void prettyPrint(string out)
+    void prettyPrint(std::string out)
     {
-        cout << left << setw(30) << out;
+        std::cout << std::left << std::setw(30) << out;
     }
     void prettyPrint(int out)
     {
-        cout << left << setw(30) << out;
+        std::cout << std::left << std::setw(30) << out;
+    }
+    void printSeparator()
+    {
+        for (int i = 0; i < 80; i++)
+            std::cout << "-";
+        std::cout << "\n";
     }
 
-    int lposSlash(string filename)
+    int lposSlash(std::string filename)
     {
         int pos = -1;
         for (int i = 0; i < filename.length(); i++)
@@ -120,7 +125,7 @@ class huffmantool
     }
 
 public:
-    string compressFile(string sourcefile, string compressedFile = "")
+    std::string compressFile(std::string sourcefile, std::string compressedFile = "")
     {
         if (compressedFile == "")
         {
@@ -128,21 +133,21 @@ public:
             compressedFile = sourcefile.substr(0, pos + 1) + "compressed_" + sourcefile.substr(pos + 1);
         }
         // [1]
-        ifstream reader;
+        std::ifstream reader;
         // [2]
-        reader.open(sourcefile, ios::in);
+        reader.open(sourcefile, std::ios::in);
         if (!reader.is_open())
         {
-            cout << "No such file exists or cannot open file " + sourcefile;
+            std::cout << "No such file exists or cannot open file " + sourcefile;
             return "";
         }
         // map for index in vector
-        unordered_map<char, int> *index = new unordered_map<char, int>;
-        vector<cfp *> freq_store;
+        std::unordered_map<char, int> *index = new std::unordered_map<char, int>;
+        std::vector<cfp *> freq_store;
         char ch;
         int numChars = 0;
         // [3]
-        while (reader >> noskipws >> ch)
+        while (reader >> std::noskipws >> ch)
         {
             numChars++;
             if (index->count(ch) > 0)
@@ -160,11 +165,11 @@ public:
         delete index;
         if (freq_store.size() <= 1)
         {
-            cout << "No need for encryption\n";
+            std::cout << "No need for encryption\n";
             return 0;
         }
         // Create min priority queue for cfp pair
-        priority_queue<cfp *, vector<cfp *>, pairComparator> freq_sorted;
+        std::priority_queue<cfp *, std::vector<cfp *>, pairComparator> freq_sorted;
         for (auto i : freq_store)
         {
             freq_sorted.push(i);
@@ -186,13 +191,13 @@ public:
                 break;
             }
         }
-        unordered_map<char, string> charKeyMap;
+        std::unordered_map<char, std::string> charKeyMap;
         traverse(head, charKeyMap, "");
 
         // Read from file and write compressed to new file
-        ofstream writer;
-        writer.open(compressedFile, ios::out | ios::trunc);
-        reader.open(sourcefile, ios::in);
+        std::ofstream writer;
+        writer.open(compressedFile, std::ios::out | std::ios::trunc);
+        reader.open(sourcefile, std::ios::in);
 
         // First write the tree in preorder form
         writeTree(writer, head);
@@ -202,9 +207,9 @@ public:
         char chr = 0;
         int bufferSize = 8;
         int size = 0;
-        while (reader >> noskipws >> ch)
+        while (reader >> std::noskipws >> ch)
         {
-            string bin = charKeyMap[ch];
+            std::string bin = charKeyMap[ch];
             for (int i = 0; i < bin.length(); i++)
             {
                 chr = (chr << 1) ^ (bin[i] - '0');
@@ -226,7 +231,7 @@ public:
         reader.close();
         return compressedFile;
     }
-    string decompressFile(string compressedFile, string retrievedFile = "")
+    std::string decompressFile(std::string compressedFile, std::string retrievedFile = "")
     {
         if (retrievedFile == "")
         {
@@ -237,25 +242,25 @@ public:
             else
                 retrievedFile += compressedFile.substr(pos + 1);
         }
-        ifstream reader;
-        ofstream writer;
-        reader.open(compressedFile, ios::in);
+        std::ifstream reader;
+        std::ofstream writer;
+        reader.open(compressedFile, std::ios::in);
         // create huffman tree from file
         cfp *head = readTree(reader);
         // Create key char map for decompression
-        unordered_map<string, char> keyCharMap;
+        std::unordered_map<std::string, char> keyCharMap;
         traverse(head, keyCharMap, "");
         delete head;
         // Read total number of characters
         int totalChars;
-        reader >> noskipws >> totalChars;
-        writer.open(retrievedFile, ios::out | ios::trunc);
-        string key = "";
+        reader >> std::noskipws >> totalChars;
+        writer.open(retrievedFile, std::ios::out | std::ios::trunc);
+        std::string key = "";
         int readChars = 0;
         char ch;
-        while (reader >> noskipws >> ch && readChars != totalChars)
+        while (reader >> std::noskipws >> ch && readChars != totalChars)
         {
-            string bin_read = bitset<8>(ch).to_string();
+            std::string bin_read = std::bitset<8>(ch).to_string();
             for (int i = 0; i < bin_read.length(); i++)
             {
                 key += bin_read[i];
@@ -273,13 +278,22 @@ public:
         writer.close();
         return retrievedFile;
     };
-    void benchmark(string sourcefile = "sample/newfile.txt")
+    void benchmark(std::string sourcefile = "sample/newfile.txt")
     {
-        string compressedFile = compressFile(sourcefile);
+        auto start_compression = std::chrono::high_resolution_clock::now();
+        std::string compressedFile = compressFile(sourcefile);
+        auto end_compression = std::chrono::high_resolution_clock::now();
         if (compressedFile == "")
             return;
+        auto compression_time = std::chrono::duration_cast<std::chrono::microseconds>(end_compression - start_compression);
+
+        auto start_decompression = std::chrono::high_resolution_clock::now();
+        std::string retrievedFile = decompressFile(compressedFile);
+        auto end_decompression = std::chrono::high_resolution_clock::now();
+        auto decompression_time = std::chrono::duration_cast<std::chrono::microseconds>(end_decompression - start_decompression);
+
+        // Get file sizes
         scanner sc;
-        string retrievedFile = decompressFile(compressedFile);
         int original_size = sc.getFileSize(sourcefile);
         if (original_size == -1)
             return;
@@ -292,25 +306,35 @@ public:
         if (decompressed_size == -1)
             return;
 
-        cout << "----------Completed---------- \n";
+        printSeparator();
+        std::cout << "                              B E N C H M A R K\n";
+        printSeparator();
+        std::cout << "\n";
+
         prettyPrint("Filetype");
         prettyPrint("Filename");
         prettyPrint("Filesize in bytes");
-        cout << "\n\n";
+        std::cout << "\n\n";
         prettyPrint("Original");
         sourcefile = sourcefile.substr(lposSlash(sourcefile) + 1);
         prettyPrint(sourcefile);
         prettyPrint(original_size);
-        cout << "\n";
+        std::cout << "\n";
         prettyPrint("Compressed");
         compressedFile = compressedFile.substr(lposSlash(compressedFile) + 1);
         prettyPrint(compressedFile);
         prettyPrint(compressed_size);
-        cout << "\n";
+        std::cout << "\n";
         prettyPrint("Decompressed");
         retrievedFile = retrievedFile.substr(lposSlash(retrievedFile) + 1);
         prettyPrint(retrievedFile);
         prettyPrint(decompressed_size);
-        cout << "\n";
+
+        float compression = ((float)compressed_size / original_size) * 100.0;
+        std::cout << "\n\n";
+        printSeparator();
+        std::cout << "Time taken to compress file: " << compression_time.count() << " microseconds\n";
+        std::cout << "Time taken to decompress file: " << decompression_time.count() << " microseconds\n";
+        std::cout << "Compression: " << compression << "% \n\n";
     };
 };

@@ -1,9 +1,19 @@
-# File Compression Using Huffman Coding
+# Huffman Compression Library
 
-This is a C++ project to demonstrate file compression and decompression using Huffman Coding Algorithm.
+This is a custom C++ library that implements Huffman coding compression algorithm. The library exposes methods that provides high level abstraction over compression and decompression of files.
+
+## Features
+
+- Fast and efficient
+- Supports all kinds of files (images, pdf, video, text, etc)
+- High level abstraction methods to be used
+- No need of understanding how compression algorithm works
+- Light weight library
+- Compression ratio of upto 50%
 
 ## Screenshot
 
+Below is the output for `huffmantool.benchmark()` method
 ![output.png](assets/output.png)
 
 ## Usage
@@ -54,33 +64,26 @@ If no `retrievedFile` is provided, `retrievedFile` is present at the same dir as
 benchmark(string sourcefile = "sample/newfile.txt") : void
 ```
 
-This method performs compression and decompression on the sourcefile provided and prints the output in form of below table:  
-<table>
-<thead>
-<tr>
-<th>Filetype</th>
-<th>Filename</th>
-<th>Filesize (in bytes)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Original</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Compressed</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>Decompressed</td>
-<td></td>
-<td></td>
-</tr>
-</tbody>
-</table>
+This method performs compression and decompression on the sourcefile provided and prints the following stats to the stdout.
+
+```
+--------------------------------------------------------------------------------
+                              B E N C H M A R K
+--------------------------------------------------------------------------------
+
+Filetype                      Filename                      Filesize in bytes
+
+Original
+Compressed
+Decompressed
+
+--------------------------------------------------------------------------------
+Time taken to compress file: XYZ microseconds
+Time taken to decompress file: XYZ microseconds
+Compression: XY.Z%
+
+```
+
 If no `sourcefile` is given, source file is considered as `sample/newfile.txt`
 
 ## Performance Comparison
