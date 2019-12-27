@@ -1,8 +1,7 @@
 # Huffman Compression Library
 
 This is a custom C++ library that implements Huffman coding compression algorithm. The library exposes methods that provides high level abstraction over compression and decompression of files.  
-[![forthebadge](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)](https://forthebadge.com)  
-![](https://github.com/actions/hello-world/workflows/.github/workflows/ccpp.yml/badge.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bhumijgupta/![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library)) ![GitHub top language](https://img.shields.io/github/languages/top/bhumijgupta/huffman-compression-library)
+![](https://github.com/bhumijgupta/huffman-compression-library/workflows/.github/workflows/ccpp.yml/badge.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bhumijgupta/huffman-compression-library) ![GitHub top language](https://img.shields.io/github/languages/top/bhumijgupta/huffman-compression-library)
 
 ## Table of Contents
 
