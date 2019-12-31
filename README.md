@@ -15,6 +15,7 @@ This is a custom C++ library that implements Huffman coding compression algorith
 - [Performance Comparison](#Performance-Comparison)
   - [Conclusion](#Conclusion)
 - [Run tests](#Run-tests)
+- [License](#License)
 - [Author](#Author)
 
 ## Features
@@ -124,6 +125,8 @@ But we notice, as the size of file increases (>=1000 bytes), the compression rat
 
 ## Run tests
 
+![](https://github.com/bhumijgupta/huffman-compression-library/workflows/Unit%20Test/badge.svg)
+
 The tests are stored in `tests/` directory. You need to install [gtest](https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/) framework to run test.
 
 ```bash
@@ -138,6 +141,10 @@ make
 - Explain in detail the working and implemetation in wiki
 - Add more examples
 - Add better documentation
+
+## License
+
+This program is licensed under MIT License. The license file can be found [here](LICENSE)
 
 ## Author
 
