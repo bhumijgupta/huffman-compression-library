@@ -36,6 +36,10 @@
 #include <bitset>
 #include <chrono>
 
+// ******************************
+// 	CUSTOM INCLUDES & MACROS
+// ******************************
+
 #include "src/scanner.h"
 #include "src/cfp.h"
 
@@ -155,7 +159,7 @@ std::string huffmantool::compressFile(std::string sourcefile, std::string compre
     reader.open(sourcefile, std::ios::in);
     if (!reader.is_open())
     {
-        std::cout << "No such file exists or cannot open file " + sourcefile;
+        std::cout << "ERROR: No such file exists or cannot open file " + sourcefile;
         return "";
     }
     // map for index in vector
@@ -182,7 +186,7 @@ std::string huffmantool::compressFile(std::string sourcefile, std::string compre
     delete index;
     if (freq_store.size() <= 1)
     {
-        std::cout << "No need for encryption\n";
+        std::cout << "INFO: No need for encryption\n";
         return 0;
     }
     // Create min priority queue for cfp pair
@@ -263,6 +267,11 @@ std::string huffmantool::decompressFile(std::string compressedFile, std::string 
     std::ifstream reader;
     std::ofstream writer;
     reader.open(compressedFile, std::ios::in);
+    if (!reader.is_open())
+    {
+        std::cout << "ERROR: No such file exists or cannot open file " + compressedFile;
+        return "";
+    }
     // create huffman tree from file
     cfp *head = readTree(reader);
     // Create key char map for decompression
@@ -297,12 +306,12 @@ std::string huffmantool::decompressFile(std::string compressedFile, std::string 
     writer.close();
     if (readChars != totalChars)
     {
-        std::cout << "Compressed file is corrupted\n";
+        std::cout << "ERROR: Compressed file is corrupted\n";
         return "";
     }
     return retrievedFile;
 };
-void huffmantool::benchmark(std::string sourcefile = "sample/newfile.txt")
+void huffmantool::benchmark(std::string sourcefile)
 {
     // [4]
     auto start_compression = std::chrono::high_resolution_clock::now();

@@ -14,6 +14,7 @@ This is a custom C++ library that implements Huffman coding compression algorith
   - [benchmark](#benchmark)
 - [Performance Comparison](#Performance-Comparison)
   - [Conclusion](#Conclusion)
+- [Examples](#Examples)
 - [Run tests](#Run-tests)
 - [License](#License)
 - [Author](#Author)
@@ -80,7 +81,7 @@ If no `retrievedFile` is provided, `retrievedFile` is present at the same dir as
 ### benchmark
 
 ```C++
-benchmark(string sourcefile = "sample/newfile.txt") : void
+benchmark(string sourcefile) : void
 ```
 
 This method performs compression and decompression on the sourcefile provided and prints the following stats to the stdout.
@@ -103,8 +104,6 @@ Compression: XY.Z%
 
 ```
 
-If no `sourcefile` is given, source file is considered as `sample/newfile.txt`
-
 ## Performance Comparison
 
 The `newfile.txt` is populated using lorem ipsum data from [lipsum.com](https://www.lipsum.com/) and the following data is noticed after executing `main.cpp`.
@@ -123,6 +122,13 @@ The compression ratio and performance of the Huffman coding depends on the size 
 
 But we notice, as the size of file increases (>=1000 bytes), the compression ratio stays at almost 50%.
 
+## Examples
+
+Following are the list of examples
+
+- [Benchmarking tool](examples/benchmark.cpp)
+- [CLI based file compression](examples/cli_compression.cpp)
+
 ## Run tests
 
 ![](https://github.com/bhumijgupta/huffman-compression-library/workflows/Unit%20Test/badge.svg)
@@ -130,6 +136,7 @@ But we notice, as the size of file increases (>=1000 bytes), the compression rat
 The tests are stored in `tests/` directory. You need to install [gtest](https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/) framework to run test.
 
 ```bash
+cd tests/
 cmake CMakeLists.txt
 make
 ./runTests

@@ -1,5 +1,6 @@
 #ifndef SCANNER_H
 #define SCANNER_H
+
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -14,7 +15,7 @@ public:
         {
             reader.open(filename, std::ios::binary | std::ios::ate);
             if (!reader.is_open())
-                throw "Cannot open file " + filename;
+                throw "ERROR: Cannot open file " + filename;
             reader.seekg(0, std::ios::end);
             int size = reader.tellg();
             reader.close();

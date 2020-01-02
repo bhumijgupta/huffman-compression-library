@@ -1,3 +1,6 @@
+#ifndef CFP_H
+#define CFP_H
+
 class charFreqPair
 {
     char ch;
@@ -31,3 +34,5 @@ public:
         return a->getFreq() > b->getFreq();
     }
 };
+
+#endif // CFP_H
