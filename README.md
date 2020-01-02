@@ -1,6 +1,7 @@
-# Huffman Compression Library
+# HCL (Huffman Compression Library)
 
-This is a custom C++ library that implements Huffman coding compression algorithm. The library exposes methods that provides high level abstraction over compression and decompression of files.  
+> HCL a custom C++ library that allows file compression using Huffman Compression algorithm.
+
 ![](https://github.com/bhumijgupta/huffman-compression-library/workflows/Unit%20Test/badge.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bhumijgupta/huffman-compression-library) ![GitHub top language](https://img.shields.io/github/languages/top/bhumijgupta/huffman-compression-library)
 
 ## Table of Contents
@@ -8,6 +9,8 @@ This is a custom C++ library that implements Huffman coding compression algorith
 - [Features](#Features)
 - [Benchmarks](#Benchmarks)
 - [Usage](#Usage)
+  - [Try Online](#Try-Online)
+  - [Try Locally](#Try-Locally)
 - [Methods](#Methods)
   - [compressFile](#compressFile)
   - [decompressFile](#decompressFile)
@@ -35,38 +38,48 @@ Below is the output for `huffmantool.benchmark()` method
 
 ## Usage
 
-1. Clone this repo to your project folder
-   `git clone git@github.com:bhumijgupta/huffman-compression-library.git htlibrary`
+There are 2 ways to try the HCL library
 
-2. Import Huffman tool header and create new `huffmantool` object
+1. ### Try Online
 
-```C++
-// Filename main.cpp
-#import "htlibrary/huffmantool.h"
+   Try the HCL library online on my custom repl [![](https://img.shields.io/badge/Try%20Online-repl.it-blue)](https://repl.it/@bhumijgupta/huffman-demo)
 
-int main(){
-    huffmantool ht;
-    .
-    .
-    .
-}
-```
+2. ### Try Locally
 
-2. Compile and run file
+   1. Clone this repo to your project folder
+      `git clone git@github.com:bhumijgupta/huffman-compression-library.git hcl`
 
-```bash
-g++ main.cpp && ./a.out
-```
+   2. Import Huffman tool header and create new `huffmantool` object
+
+   ```C++
+   // Filename main.cpp
+   #include "hcl/huffmantool.h"
+
+   int main(){
+       huffmantool ht;
+       .
+       .
+       .
+   }
+   ```
+
+   2. Compile and run file
+
+   ```bash
+   g++ main.cpp && ./a.out
+   ```
 
 ## Methods
 
 ### compressFile
 
 ```C++
-compressFile(string sourcefile, string compressedFile = "") : string
+compressFile(string sourceFile, string compressedFile = "") : string
 ```
 
 Returns the destination of compressed file.  
+If the `sourceFile` provided is invalid or cannot be opened, it returns an empty string.
+
 If no `compressedFile` is provided, `compressedFile` is present at the same dir as `sourcefile` with prefix `compressed_`
 
 ### decompressFile
@@ -76,6 +89,8 @@ decompressFile(string compressedFile, string retrievedFile = "") : string
 ```
 
 Returns the destination of decompressed file.  
+If the `compressedFile` provided is invalid or cannot be opened, it reurns an empty string.
+
 If no `retrievedFile` is provided, `retrievedFile` is present at the same dir as `compressedFile` with prefix `decompressed_` and removed `compressed_` prefix (if present)
 
 ### benchmark
@@ -126,14 +141,14 @@ But we notice, as the size of file increases (>=1000 bytes), the compression rat
 
 Following are the list of examples
 
+- [CLI tool for file compression](examples/cli_compression.cpp)
 - [Benchmarking tool](examples/benchmark.cpp)
-- [CLI based file compression](examples/cli_compression.cpp)
 
 ## Run tests
 
 ![](https://github.com/bhumijgupta/huffman-compression-library/workflows/Unit%20Test/badge.svg)
 
-The tests are stored in `tests/` directory. You need to install [gtest](https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/) framework to run test.
+The tests are stored in `tests/` directory. You need to install [googletest](https://www.eriksmistad.no/getting-started-with-google-test-on-ubuntu/) framework to run test.
 
 ```bash
 cd tests/
@@ -142,16 +157,11 @@ make
 ./runTests
 ```
 
-## Future works
-
-- Add more unit tests
-- Explain in detail the working and implemetation in wiki
-- Add more examples
-- Add better documentation
-
 ## License
 
-This program is licensed under MIT License. The license file can be found [here](LICENSE)
+![GitHub](https://img.shields.io/github/license/bhumijgupta/huffman-compression-library)
+
+This library is licensed under MIT License. The license file can be found [here](LICENSE)
 
 ## Author
 
@@ -160,3 +170,11 @@ This program is licensed under MIT License. The license file can be found [here]
 ### Bhumij Gupta
 
 ![GitHub followers](https://img.shields.io/github/followers/bhumijgupta?label=Follow&style=social) [![LinkedIn](https://img.shields.io/static/v1.svg?label=connect&message=@bhumijgupta&color=success&logo=linkedin&style=flat&logoColor=white)](https://www.linkedin.com/in/bhumijgupta/) ![Twitter URL](https://img.shields.io/twitter/url?style=social&url=http%3A%2F%2Ftwitter.com%2Fbhumijgupta)
+
+---
+
+```C++
+if(repo.isAwesome || repo.isHelpful){
+    StarRepo();
+}
+```
