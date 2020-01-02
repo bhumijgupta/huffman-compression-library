@@ -22,7 +22,7 @@
 
 /* code */
 
-// [1]
+// [1] See Wiki for more info
 #ifndef HUFFMAN_TOOL_H
 #define HUFFMAN_TOOL_H
 
@@ -39,7 +39,12 @@
 #include "src/scanner.h"
 #include "src/cfp.h"
 
-// Class declaration
+#define cfp charFreqPair
+
+// ******************************
+// 	CLASS DECLARATION
+// ******************************
+
 class huffmantool
 {
     void traverse(cfp const *, std::unordered_map<char, std::string> &, std::string const);
@@ -57,7 +62,10 @@ public:
     void benchmark(std::string);
 };
 
-// Methods Definition
+// ******************************
+// 	METHODS DEFINATION
+// ******************************
+
 void huffmantool::traverse(cfp const *head, std::unordered_map<char, std::string> &charKeyMap, std::string const s)
 {
     if (head->left == NULL && head->right == NULL)

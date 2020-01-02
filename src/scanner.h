@@ -1,3 +1,5 @@
+#ifndef SCANNER_H
+#define SCANNER_H
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -25,3 +27,5 @@ public:
         }
     }
 };
+
+#endif // SCANNER_H

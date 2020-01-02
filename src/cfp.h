@@ -1,12 +1,11 @@
-#define cfp charFreqPair
 class charFreqPair
 {
     char ch;
     int freq;
 
 public:
-    cfp *left;
-    cfp *right;
+    charFreqPair *left;
+    charFreqPair *right;
     charFreqPair(){};
     charFreqPair(char const &ch, int const &freq) : ch(ch), freq(freq)
     {
@@ -27,7 +26,7 @@ class pairComparator
 {
 public:
     // [6]
-    int operator()(cfp *const &a, cfp *const &b)
+    int operator()(charFreqPair *const &a, charFreqPair *const &b)
     {
         return a->getFreq() > b->getFreq();
     }
