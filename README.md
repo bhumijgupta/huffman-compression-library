@@ -2,7 +2,7 @@
 
 > HCL a custom C++ library that allows file compression using Huffman Compression algorithm.
 
-![](https://github.com/bhumijgupta/huffman-compression-library/workflows/Unit%20Test/badge.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bhumijgupta/huffman-compression-library) ![GitHub top language](https://img.shields.io/github/languages/top/bhumijgupta/huffman-compression-library)
+[![](https://img.shields.io/badge/Try%20Online-repl.it-brightgreen)](https://repl.it/@bhumijgupta/huffman-demo) ![](https://github.com/bhumijgupta/huffman-compression-library/workflows/Unit%20Test/badge.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bhumijgupta/huffman-compression-library) ![GitHub top language](https://img.shields.io/github/languages/top/bhumijgupta/huffman-compression-library)
 
 ## Table of Contents
 
@@ -40,34 +40,34 @@ Below is the output for `huffmantool.benchmark()` method
 
 There are 2 ways to try the HCL library
 
-1. ### Try Online
+### 1. Try Online
 
-   Try the HCL library online on my custom repl [![](https://img.shields.io/badge/Try%20Online-repl.it-blue)](https://repl.it/@bhumijgupta/huffman-demo)
+Try the HCL library online on my custom repl. [![](https://img.shields.io/badge/Try%20Online-repl.it-blue)](https://repl.it/@bhumijgupta/huffman-demo)
 
-2. ### Try Locally
+### 2. Try Locally
 
-   1. Clone this repo to your project folder
-      `git clone git@github.com:bhumijgupta/huffman-compression-library.git hcl`
+1.  Clone this repo to your project folder
+    `git clone git@github.com:bhumijgupta/huffman-compression-library.git hcl`
 
-   2. Import Huffman tool header and create new `huffmantool` object
+2.  Import Huffman tool header and create new `huffmantool` object
 
-   ```C++
-   // Filename main.cpp
-   #include "hcl/huffmantool.h"
+```C++
+// Filename main.cpp
+#include "hcl/huffmantool.h"
 
-   int main(){
-       huffmantool ht;
-       .
-       .
-       .
-   }
-   ```
+int main(){
+    huffmantool ht;
+    .
+    .
+    .
+}
+```
 
-   2. Compile and run file
+3.  Compile and run file
 
-   ```bash
-   g++ main.cpp && ./a.out
-   ```
+```bash
+g++ main.cpp && ./a.out
+```
 
 ## Methods
 
@@ -118,6 +118,8 @@ Time taken to decompress file: XYZ microseconds
 Compression: XY.Z%
 
 ```
+
+<b>Note</b>: For detailed understanding of code refer to [Wiki](https://github.com/bhumijgupta/huffman-compression-library/wiki).
 
 ## Performance Comparison
 
