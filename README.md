@@ -2,7 +2,7 @@
 
 > HCL a custom C++ library that allows file compression using Huffman Compression algorithm.
 
-[![](https://img.shields.io/badge/Try%20Online-repl.it-brightgreen)](https://repl.it/@bhumijgupta/huffman-demo) ![](https://github.com/bhumijgupta/huffman-compression-library/workflows/Unit%20Test/badge.svg) ![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bhumijgupta/huffman-compression-library) ![GitHub top language](https://img.shields.io/github/languages/top/bhumijgupta/huffman-compression-library)
+[![](https://img.shields.io/badge/Try%20Online-repl.it-brightgreen)](https://repl.it/@bhumijgupta/huffman-demo) ![](https://github.com/bhumijgupta/huffman-compression-library/workflows/Unit%20Test/badge.svg) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/2e33d1fc65044a789e07665a674ad806)](https://www.codacy.com/manual/bhumijgupta/huffman-compression-library?utm_source=github.com&utm_medium=referral&utm_content=bhumijgupta/huffman-compression-library&utm_campaign=Badge_Grade) ![GitHub repo size](https://img.shields.io/github/repo-size/bhumijgupta/huffman-compression-library) ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/bhumijgupta/huffman-compression-library) ![GitHub top language](https://img.shields.io/github/languages/top/bhumijgupta/huffman-compression-library)
 
 ## Table of Contents
 

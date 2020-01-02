@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void show_help(string name)
+void show_help(string const &name)
 {
     cerr << "Usage: " << name << " <option(s)> SOURCES\n"
          << "Options:\n"
@@ -46,7 +46,7 @@ int main(int argc, char const *argv[])
             else
             {
                 string arg3 = argv[3];
-                string output = ht.compressFile(arg2, arg3);
+                output = ht.compressFile(arg2, arg3);
             }
             if (output != "")
             {
@@ -65,7 +65,7 @@ int main(int argc, char const *argv[])
             else
             {
                 string arg3 = argv[3];
-                string output = ht.decompressFile(arg2, arg3);
+                output = ht.decompressFile(arg2, arg3);
             }
             if (output != "")
             {
