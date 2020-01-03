@@ -4,4 +4,5 @@ int main()
 {
     huffmantool ht;
     ht.benchmark("../sample/newfile.txt");
+    return 0;
 }

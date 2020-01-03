@@ -106,6 +106,7 @@ cfp *huffmantool::readTree(std::ifstream &reader)
     cfp *head = new cfp('~', 0);
     head->left = readTree(reader);
     head->right = readTree(reader);
+    return head;
 }
 
 void huffmantool::writeTree(std::ofstream &writer, cfp const *head)
