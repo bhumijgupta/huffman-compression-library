@@ -1,6 +1,8 @@
 #ifndef CFP_H
 #define CFP_H
 
+#include <cstddef>
+
 class charFreqPair
 {
     char ch;

@@ -8,3 +8,4 @@ cmake_install.cmake
 CMakeCache.txt
 runTests
 main
+*.h.gch

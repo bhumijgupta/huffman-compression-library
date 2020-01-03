@@ -140,7 +140,7 @@ void huffmantool::printSeparator()
 int huffmantool::lposSlash(std::string const filename)
 {
     int pos = -1;
-    for (int i = 0; i < filename.length(); i++)
+    for (unsigned int i = 0; i < filename.length(); i++)
     {
         if (filename[i] == '/')
             pos = i;
@@ -227,11 +227,10 @@ std::string huffmantool::compressFile(std::string sourcefile, std::string compre
     writer << numChars;
     char chr = 0;
     int bufferSize = 8;
-    int size = 0;
     while (reader >> std::noskipws >> ch)
     {
         std::string bin = charKeyMap[ch];
-        for (int i = 0; i < bin.length(); i++)
+        for (unsigned int i = 0; i < bin.length(); i++)
         {
             chr = (chr << 1) ^ (bin[i] - '0');
             bufferSize--;
@@ -289,7 +288,7 @@ std::string huffmantool::decompressFile(std::string compressedFile, std::string 
     {
         // [3]
         std::string bin_read = std::bitset<8>(ch).to_string();
-        for (int i = 0; i < bin_read.length(); i++)
+        for (unsigned int i = 0; i < bin_read.length(); i++)
         {
             key += bin_read[i];
             if (keyCharMap.count(key) > 0)
