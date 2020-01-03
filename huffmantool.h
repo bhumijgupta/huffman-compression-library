@@ -49,6 +49,10 @@
 // 	CLASS DECLARATION
 // ******************************
 
+/**
+ * @brief This class contains methods for file compression and decompression
+ * 
+ */
 class huffmantool
 {
     void traverse(cfp const *, std::unordered_map<char, std::string> &, std::string const);
@@ -149,18 +153,25 @@ int huffmantool::lposSlash(std::string const filename)
     return pos;
 }
 
-std::string huffmantool::compressFile(std::string sourcefile, std::string compressedFile = "")
+/**
+ * @brief Compress the given file
+ * 
+ * @param sourceFile Path of the file to be compressed (relative or absolute)
+ * @param compressedFile Path of the compressed file. Default: path/"compressed_"+sourceFile.extension
+ * @return std::string Returns the path of the compressed file. If some error occurs, returns empty string
+ */
+std::string huffmantool::compressFile(std::string sourceFile, std::string compressedFile = "")
 {
     if (compressedFile == "")
     {
-        int pos = lposSlash(sourcefile);
-        compressedFile = sourcefile.substr(0, pos + 1) + "compressed_" + sourcefile.substr(pos + 1);
+        int pos = lposSlash(sourceFile);
+        compressedFile = sourceFile.substr(0, pos + 1) + "compressed_" + sourceFile.substr(pos + 1);
     }
     std::ifstream reader;
-    reader.open(sourcefile, std::ios::in);
+    reader.open(sourceFile, std::ios::in);
     if (!reader.is_open())
     {
-        std::cout << "ERROR: No such file exists or cannot open file " + sourcefile;
+        std::cout << "ERROR: No such file exists or cannot open file " + sourceFile;
         return "";
     }
     // map for index in vector
@@ -219,7 +230,7 @@ std::string huffmantool::compressFile(std::string sourcefile, std::string compre
     // Read from file and write compressed to new file
     std::ofstream writer;
     writer.open(compressedFile, std::ios::out | std::ios::trunc);
-    reader.open(sourcefile, std::ios::in);
+    reader.open(sourceFile, std::ios::in);
 
     // First write the tree in preorder form
     writeTree(writer, head);
@@ -253,6 +264,13 @@ std::string huffmantool::compressFile(std::string sourcefile, std::string compre
     return compressedFile;
 }
 
+/**
+ * @brief Decompress the given file
+ * 
+ * @param compressedFile Path of the file to be decompressed (absolute or relative)
+ * @param retrievedFile Path of the decompressed file. Default: path/"decompressed_"+compressedFile.extension
+ * @return std::string Returns the path of the retrieved file. If some error occurs, returns empty string
+ */
 std::string huffmantool::decompressFile(std::string compressedFile, std::string retrievedFile = "")
 {
     if (retrievedFile == "")
@@ -311,11 +329,17 @@ std::string huffmantool::decompressFile(std::string compressedFile, std::string 
     }
     return retrievedFile;
 };
-void huffmantool::benchmark(std::string sourcefile)
+
+/**
+ * @brief Benchmarks the performance of the tool. Returns time taken for each step and compression ratio achieved.
+ * 
+ * @param sourceFile Path of the file to be used as source for compression and decompression
+ */
+void huffmantool::benchmark(std::string sourceFile)
 {
     // [4]
     auto start_compression = std::chrono::high_resolution_clock::now();
-    std::string compressedFile = compressFile(sourcefile);
+    std::string compressedFile = compressFile(sourceFile);
     auto end_compression = std::chrono::high_resolution_clock::now();
     if (compressedFile == "")
         return;
@@ -330,7 +354,7 @@ void huffmantool::benchmark(std::string sourcefile)
 
     // Get file sizes
     scanner sc;
-    int original_size = sc.getFileSize(sourcefile);
+    int original_size = sc.getFileSize(sourceFile);
     if (original_size == -1)
         return;
     int compressed_size = sc.getFileSize(compressedFile);
@@ -352,8 +376,8 @@ void huffmantool::benchmark(std::string sourcefile)
     prettyPrint("Filesize in bytes");
     std::cout << "\n\n";
     prettyPrint("Original");
-    sourcefile = sourcefile.substr(lposSlash(sourcefile) + 1);
-    prettyPrint(sourcefile);
+    sourceFile = sourceFile.substr(lposSlash(sourceFile) + 1);
+    prettyPrint(sourceFile);
     prettyPrint(original_size);
     std::cout << "\n";
     prettyPrint("Compressed");
