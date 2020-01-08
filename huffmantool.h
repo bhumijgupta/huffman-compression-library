@@ -171,7 +171,7 @@ std::string huffmantool::compressFile(std::string sourceFile, std::string compre
     reader.open(sourceFile, std::ios::in);
     if (!reader.is_open())
     {
-        std::cout << "ERROR: No such file exists or cannot open file " + sourceFile;
+        std::cerr << "ERROR: No such file exists or cannot open file " + sourceFile;
         return "";
     }
     // map for index in vector
@@ -287,7 +287,7 @@ std::string huffmantool::decompressFile(std::string compressedFile, std::string 
     reader.open(compressedFile, std::ios::in);
     if (!reader.is_open())
     {
-        std::cout << "ERROR: No such file exists or cannot open file " + compressedFile;
+        std::cerr << "ERROR: No such file exists or cannot open file " + compressedFile;
         return "";
     }
     // create huffman tree from file
@@ -324,7 +324,7 @@ std::string huffmantool::decompressFile(std::string compressedFile, std::string 
     writer.close();
     if (readChars != totalChars)
     {
-        std::cout << "ERROR: Compressed file is corrupted\n";
+        std::cerr << "ERROR: Compressed file is corrupted\n";
         return "";
     }
     return retrievedFile;

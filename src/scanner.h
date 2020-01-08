@@ -23,7 +23,7 @@ public:
         }
         catch (std::string err)
         {
-            std::cout << err << "\n";
+            std::cerr << err << "\n";
             return -1;
         }
     }
