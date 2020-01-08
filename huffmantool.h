@@ -199,7 +199,7 @@ std::string huffmantool::compressFile(std::string sourceFile, std::string compre
     if (freq_store.size() <= 1)
     {
         std::cout << "INFO: No need for encryption\n";
-        return 0;
+        return "";
     }
     // Create min priority queue for cfp pair
     std::priority_queue<cfp *, std::vector<cfp *>, pairComparator> freq_sorted;

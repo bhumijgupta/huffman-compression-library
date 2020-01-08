@@ -46,8 +46,8 @@ Try the HCL library online on my custom repl. [![](https://img.shields.io/badge/
 
 ### 2. Try Locally
 
-1.  Clone this repo to your project folder
-    `git clone git@github.com:bhumijgupta/huffman-compression-library.git hcl`
+1.  Clone this repo to your project folder  
+    `git clone https://github.com/bhumijgupta/huffman-compression-library.git hcl`
 
 2.  Import Huffman tool header and create new `huffmantool` object
 
